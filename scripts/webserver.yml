@@ -1,0 +1,24 @@
+---
+- name: Crear un archivo y escribir contenido
+  hosts: localhost
+  tasks:
+    - name: Asegurarse de que el directorio existe
+      file:
+        path: /tmp/mi_directorio
+        state: directory
+
+    - name: Crear un archivo de texto
+      copy:
+        dest: /tmp/mi_directorio/mi_archivo.txt
+        content: "¡Hola, Ansible!\nEste archivo fue creado por un playbook."
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Leer el contenido del archivo
+      command: cat /tmp/mi_directorio/mi_archivo.txt
+      register: contenido_archivo
+
+    - name: Mostrar el contenido del archivo
+      debug:
+        var: contenido_archivo.stdout
